@@ -16,5 +16,13 @@ public class ForumApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ForumApplication.class, args);
 	}
+	
+	// Gerar versão no formato .war
+	// Adicionar: extends SpringBootServletInitializer
+	// Descomentar: coódigo abaixo e arquivo pom.xml
+//	@Override
+//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//		return builder.sources(ForumApplication.class);
+//	}
 
 }
