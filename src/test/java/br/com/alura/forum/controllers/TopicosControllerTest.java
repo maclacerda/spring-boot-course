@@ -1,6 +1,8 @@
 package br.com.alura.forum.controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -25,6 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import br.com.alura.forum.modelo.Curso;
+import br.com.alura.forum.modelo.Perfil;
 import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.modelo.Usuario;
 
@@ -50,6 +53,19 @@ public class TopicosControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		path = new URI("/topicos");
+		
+		Perfil perfilAluno = new Perfil();
+		Perfil perfilModerador = new Perfil();
+
+		perfilAluno.setNome("ROLE_ALUNO");
+		perfilModerador.setNome("ROLE_MODERADOR");
+		
+		entityManager.persistAndFlush(perfilAluno);
+		entityManager.persistAndFlush(perfilModerador);
+		
+		List<Perfil> perfis = new ArrayList<Perfil>();
+		
+		perfis.add(perfilModerador);
 
 		Usuario usuario1 = new Usuario();
 		Usuario usuario2 = new Usuario();
@@ -61,6 +77,7 @@ public class TopicosControllerTest {
 		usuario2.setNome("Moderador");
 		usuario2.setEmail("moderador@email.com");
 		usuario2.setSenha("$2a$10$e0fvHjp0BoMVD0jMhyNzGOXaGODJVsu/5tz0.w1Z4ZI7utXZ06J9W");
+		usuario2.setPerfis(perfis);
 
 		entityManager.persistAndFlush(usuario1);
 		entityManager.persistAndFlush(usuario2);
@@ -171,7 +188,7 @@ public class TopicosControllerTest {
 
 	@Test
 	public void testRemover() throws Exception {
-		String json = "{\"email\": \"aluno@email.com\", \"senha\": \"123456\"}";
+		String json = "{\"email\": \"moderador@email.com\", \"senha\": \"123456\"}";
 		path = new URI("/auth");
 
 		request = MockMvcRequestBuilders.post(path).contentType(MediaType.APPLICATION_JSON).content(json);
