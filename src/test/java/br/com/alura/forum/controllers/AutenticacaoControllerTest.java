@@ -46,7 +46,7 @@ public class AutenticacaoControllerTest {
 		usuario.setEmail("aluno@email.com");
 		usuario.setSenha("$2a$10$e0fvHjp0BoMVD0jMhyNzGOXaGODJVsu/5tz0.w1Z4ZI7utXZ06J9W");
 		
-		entityManager.persist(usuario);
+		entityManager.persistAndFlush(usuario);
 		
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(path)
 				.contentType(MediaType.APPLICATION_JSON)
